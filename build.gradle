@@ -1,0 +1,47 @@
+apply plugin: "ratpack-groovy"
+apply plugin: "idea"
+
+buildscript {
+    repositories {
+        maven { url "http://oss.jfrog.org/repo" }
+        mavenCentral()
+    }
+    dependencies {
+        classpath "io.ratpack:ratpack-gradle:0.9.1"
+    }
+}
+
+repositories {
+    maven { url "http://oss.jfrog.org/repo" }
+    mavenCentral()
+    maven { url "http://repo.springsource.org/repo" } // for springloaded
+}
+
+dependencies {
+    // SpringLoaded enables runtime hot reloading.
+    // It is not part of the app runtime and is not shipped in the distribution.
+    springloaded "org.springsource.springloaded:springloaded-core:1.1.4"
+    testCompile "org.spockframework:spock-core:0.7-groovy-2.0", {
+        exclude module: "groovy-all"
+    }
+
+    compile "io.ratpack:ratpack-jackson:0.9.1"
+    compile "io.ratpack:ratpack-remote:0.9.1"
+    compile "io.ratpack:ratpack-codahale-metrics:0.9.1"
+    compile "io.ratpack:ratpack-rx:0.9.1"
+}
+
+idea {
+    project {
+        jdkName "1.7"
+        languageLevel "1.7"
+    }
+}
+
+configurations.all {
+    exclude module: "groovy"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "1.10"
+}
